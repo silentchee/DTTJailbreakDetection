@@ -58,20 +58,26 @@
         fclose(file);
         return YES;
     }
-    
+
     NSFileManager *fileManager = [NSFileManager defaultManager];
+    
+    
+    bool isiOSAppOnMac = false;
+    if (@available(iOS 14.0, *)) {
+        isiOSAppOnMac = NSProcessInfo.processInfo.isiOSAppOnMac;
+    }
 
     if ([fileManager fileExistsAtPath:@"/Applications/Cydia.app"]) {
         return YES;
     } else if ([fileManager fileExistsAtPath:@"/Library/MobileSubstrate/MobileSubstrate.dylib"]) {
         return YES;
-    } else if ([fileManager fileExistsAtPath:@"/bin/bash"]) {
+    } else if ([fileManager fileExistsAtPath:@"/bin/bash"] && !isiOSAppOnMac) {
         return YES;
-    } else if ([fileManager fileExistsAtPath:@"/usr/sbin/sshd"]) {
+    } else if ([fileManager fileExistsAtPath:@"/usr/sbin/sshd"] &&!isiOSAppOnMac) {
         return YES;
-    } else if ([fileManager fileExistsAtPath:@"/etc/apt"]) {
+    } else if ([fileManager fileExistsAtPath:@"/etc/apt"] &&!isiOSAppOnMac) {
         return YES;
-    } else if ([fileManager fileExistsAtPath:@"/usr/bin/ssh"]) {
+    } else if ([fileManager fileExistsAtPath:@"/usr/bin/ssh"] &&!isiOSAppOnMac) {
         return YES;
     }
     
